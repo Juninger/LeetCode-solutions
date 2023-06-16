@@ -7,7 +7,7 @@
 public class LC_125_ValidPalindrome {
 
     // Most optimal solution in terms of efficiency. Does not modify original string.
-    static public boolean isPalindrome(String s) {
+    public boolean isPalindrome(String s) {
 
         s = s.toLowerCase(); // could also be done per character when comparing left<->right
 
@@ -36,7 +36,7 @@ public class LC_125_ValidPalindrome {
     }
 
     // Easiest but slowest solution. Includes manipulating input string with regex.
-    static public boolean isPalindrome2(String s) {
+    public boolean isPalindrome2(String s) {
 
         s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
         String reverse = new StringBuilder(s).reverse().toString();
@@ -45,7 +45,7 @@ public class LC_125_ValidPalindrome {
     }
 
     // Another easy but slow solution. Somewhat hybrid solution with regex, two-pointer, and no StringBuilder library.
-    static public boolean isPalindrome3(String s) {
+    public boolean isPalindrome3(String s) {
 
         s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
 
