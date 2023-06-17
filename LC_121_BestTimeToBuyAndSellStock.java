@@ -5,6 +5,30 @@
  */
 public class LC_121_BestTimeToBuyAndSellStock {
 
+    // Faster solution with only one iteration --> O(N)
+    public int maxProfit(int[] prices) {
+
+        int maxProfit = 0;
+        int cheapestPrice = prices[0];
+
+        // Look for largest difference between all days
+        for (int currentPrice : prices) {
+
+            // We track the cheapest buy-price historically to compare with current sell-price
+            if (currentPrice < cheapestPrice) {
+                cheapestPrice = currentPrice;
+            }
+
+            int profit = currentPrice - cheapestPrice;
+
+            // We track the current max profit but still need to complete one iteration
+            if (profit > maxProfit) {
+                maxProfit = profit;
+            }
+        }
+        return maxProfit;
+    }
+
     // Brute force solution, very slow --> O(N^2)
     public int maxProfit2(int[] prices) {
 
