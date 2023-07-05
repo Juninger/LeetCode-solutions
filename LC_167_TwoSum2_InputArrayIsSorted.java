@@ -10,9 +10,30 @@ import java.util.Map;
  */
 public class LC_167_TwoSum2_InputArrayIsSorted {
 
+    // Uses two pointers [left, right] to traverse numbers-array from both sides
+    // We know ONE solution exists, thus the target will be found before the pointers meet
+    public int[] twoSum(int[] numbers, int target) {
+        int left = 0;
+        int right = numbers.length - 1;
+
+        while (left < right) { // Iterates until pointers meet
+
+            int sum = numbers[left] + numbers[right]; // Current sum of a smaller number on the left and a larger number on the right
+
+            if (sum > target) { // Current sum too large, we decrease the right pointer to make it smaller
+                right--;
+            } else if (sum < target) { // Current sum too small, we increase the left pointer to make it bigger
+                left++;
+            } else { // Current sum is equal to target, we return the pointers to the indices (+1 because of 1-indexing)
+                return new int[] {left+1 , right+1};
+            }
+        }
+        return null; // Will never be reached since we know a solution exists
+    }
+
     // Same solution as "LC_1_TwoSum" but modified for 1-indexing
     // Overall slow solution with some extra space due to complement hashmap
-    public int[] twoSum(int[] numbers, int target) {
+    public int[] twoSum2(int[] numbers, int target) {
 
         int[] result = new int[2]; // Stores found indices
         Map<Integer, Integer> map = new HashMap<>(); // Used to store and check for complement of (target - current number)
