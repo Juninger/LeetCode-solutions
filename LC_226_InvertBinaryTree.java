@@ -1,17 +1,20 @@
 public class LC_226_InvertBinaryTree {
 
+    // DFS solution
     public TreeNode invertTree(TreeNode root) {
 
         if (root == null) return root;
 
+        // Swapping left:right nodes
         TreeNode temp = root.left;
         root.left = root.right;
         root.right = temp;
 
+        // Recursively inverts subtrees
         invertTree(root.left);
         invertTree(root.right);
 
-        return root;
+        return root; // Unchanged root value
     }
 
     //Definition for a binary tree node.
