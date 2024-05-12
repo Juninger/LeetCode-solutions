@@ -1,23 +1,44 @@
+/**
+ * Given the root of a binary tree, invert the tree, and return its root.
+ */
 public class LC_226_InvertBinaryTree {
 
-    // DFS solution
+    // DFS solution: post-order traversal --> better space complexity: O(1)
     public TreeNode invertTree(TreeNode root) {
 
-        if (root == null) return root;
+        // base case: end of branch, nothing more to invert
+        if (root == null) return null;
 
-        // Swapping left:right nodes
+        // recursively inverts subtrees until base case
+        TreeNode leftInverted = invertTree(root.left);
+        TreeNode rightInverted = invertTree(root.right);
+
+        // swaps left:right subtrees
+        root.left = rightInverted;
+        root.right = leftInverted;
+
+        return root; // unchanged root value
+    }
+
+    // DFS solution: pre-order traversal --> worse space complexity: O(h) (h = height of tree)
+    public TreeNode invertTree2(TreeNode root) {
+
+        // base case: end of branch, nothing more to invert
+        if (root == null) return null;
+
+        // swaps left:right child nodes of root
         TreeNode temp = root.left;
         root.left = root.right;
         root.right = temp;
 
-        // Recursively inverts subtrees
-        invertTree(root.left);
-        invertTree(root.right);
+        // recursively inverts subtrees until base case
+        invertTree2(root.left);
+        invertTree2(root.right);
 
-        return root; // Unchanged root value
+        return root; // unchanged root value
     }
 
-    //Definition for a binary tree node.
+    // definition for a binary tree node
     public static class TreeNode {
         int val;
         TreeNode left;
