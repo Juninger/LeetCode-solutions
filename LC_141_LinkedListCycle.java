@@ -11,7 +11,24 @@ import java.util.Set;
  */
 public class LC_141_LinkedListCycle {
 
+    // "Floyd's Tortoise and Hare" || "two-pointer technique" - solution
     public boolean hasCycle(ListNode head) {
+        ListNode slow = head; // "tortoise"
+        ListNode fast = head; // "hare"
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next; // tortoise moves one step
+            fast = fast.next.next; // hare moves two steps
+
+            if (slow == fast) { // hare "caught up" to tortoise by lapping --> has cycle
+                return true;
+            }
+        }
+        return false; // end of list reached --> no cycle
+    }
+
+    // HashSet solution
+    public boolean hasCycle2(ListNode head) {
 
         // empty list
         if (head == null) {
@@ -29,7 +46,7 @@ public class LC_141_LinkedListCycle {
             seen.add(head);
             head = head.next; // next node
         }
-        return false;
+        return false; // end of list reached --> no cycle
     }
 
     //Definition for singly-linked list.
