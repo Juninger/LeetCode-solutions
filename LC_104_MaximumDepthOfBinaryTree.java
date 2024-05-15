@@ -1,5 +1,5 @@
 import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Queue;
 
 /**
  * Given the root of a binary tree, return its maximum depth.
@@ -10,27 +10,28 @@ public class LC_104_MaximumDepthOfBinaryTree {
     // BFS solution: count the number of levels in tree
     public int maxDepth(TreeNode root) {
 
-        // base case, reached leaf
+        // base case, tree is empty
         if (root == null) return 0;
 
-        int level = 0;
-        Deque<TreeNode> dq = new ArrayDeque<>();
-        dq.add(root); // adding first node
+        int levels = 0; // tracks total depth (number of levels)
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.add(root); // adding first node
 
-        int size = 1; // avoids ConcurrentModificationException
+        // loops until no more nodes to process
+        while (!q.isEmpty()) {
 
-        while (size > 0) {
+            // number of nodes to process in current level of tree
+            int currentLevelNodes = q.size();
 
             // removes current node from queue and adds children if non-null
-            for (int i = 0; i < size; i++) {
-                TreeNode node = dq.remove();
-                if (node.left != null) dq.add(node.left);
-                if (node.right != null) dq.add(node.right);
+            for (int i = 0; i < currentLevelNodes; i++) {
+                TreeNode node = q.remove();
+                if (node.left != null) q.add(node.left);
+                if (node.right != null) q.add(node.right);
             }
-            size = dq.size();
-            level++; // increases for each iteration of new children
+            levels++; // increases for each iteration of new children
         }
-        return level;
+        return levels;
     }
 
     // "classic" DFS solution: recursively counts depth of each subtree
