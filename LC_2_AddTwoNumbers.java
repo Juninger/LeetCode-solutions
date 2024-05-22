@@ -12,12 +12,43 @@ import java.math.BigInteger;
  */
 public class LC_2_AddTwoNumbers {
 
-    // bad and slow solution : uses BigInteger to be able to convert and store huge numbers
+    // solution that performs addition digit-by-digit
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
+        ListNode dummyHead = new ListNode(); // simplifies edge cases
+        ListNode current = dummyHead; // pointer to current node in result list
+
+        int carry = 0; // tracks carry number during addition
+
+        // traverse lists and perform addition
+        while (l1 != null || l2 != null || carry > 0) {
+
+            // extracts values from current nodes
+            int val1 = l1 != null ? l1.val : 0;
+            int val2 = l2 != null ? l2.val : 0;
+
+            int sum = val1 + val2 + carry; // sum of node values + carry
+            carry = sum / 10; // extracts the first digit of the sum (if >9)
+            sum = sum % 10; // extracts the last digit of the sum (if >9)
+            current.next = new ListNode(sum); // adds sum to result list
+
+            current = current.next; // move pointer in result list
+
+            // move pointers in input lists
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+        return dummyHead.next;
+    }
+
+    // bad and slow solution : uses BigInteger and Strings to be able to convert and store huge numbers
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+
+        // used to store representations of full numbers from linked lists
         StringBuilder num1 = new StringBuilder();
         StringBuilder num2 = new StringBuilder();
 
+        // traverse lists and build string with numbers
         while (l1 != null || l2 != null) {
             if (l1 != null) {
                 num1.insert(0, l1.val);
@@ -29,9 +60,14 @@ public class LC_2_AddTwoNumbers {
             }
         }
 
+        // converts Strings to BigIntegers and adds them together
+        // int and long too small for test cases, hence BigInteger
         BigInteger sum = new BigInteger(num1.toString()).add(new BigInteger(num2.toString()));
+
+        // String representation of result
         String sumStr = sum.toString();
 
+        // traverse result and build final LinkedList
         ListNode head = null;
         for (int i = 0; i < sumStr.length(); i++) {
             int number = Character.getNumericValue(sumStr.charAt(i));
