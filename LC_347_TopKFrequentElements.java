@@ -9,8 +9,39 @@ import java.util.PriorityQueue;
  */
 public class LC_347_TopKFrequentElements {
 
-    // Min-Heap (priority queue) solution
+    // max-heap (priority queue) solution
     public int[] topKFrequent(int[] nums, int k) {
+
+        // frequency map < number : frequency >
+        Map<Integer, Integer> freqMap = new HashMap<>();
+
+        // builds frequency map
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        // defines structure and rules for the max-heap
+        PriorityQueue<Map.Entry<Integer, Integer>> maxHeap = new PriorityQueue<>(
+                // compares based on frequency value in freqMap's entrySets
+                (a, b) -> b.getValue() - a.getValue()
+        );
+
+        // iterates through frequency map
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            // adds entry to max-heap
+            maxHeap.offer(entry);
+        }
+
+        // builds result array, elements in heap are the top k frequent elements
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = maxHeap.poll().getKey();
+        }
+        return result;
+    }
+
+    // min-heap (priority queue) solution
+    public int[] topKFrequent2(int[] nums, int k) {
 
         // frequency map < number : frequency >
         Map<Integer, Integer> freqMap = new HashMap<>();
@@ -47,7 +78,7 @@ public class LC_347_TopKFrequentElements {
 
 
     // slow solution : uses map to track most frequent numbers
-    public int[] topKFrequent2(int[] nums, int k) {
+    public int[] topKFrequent3(int[] nums, int k) {
 
         if (nums.length == 1) return nums;
 
