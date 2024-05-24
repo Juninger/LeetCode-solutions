@@ -1,5 +1,7 @@
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  * Given an integer array nums and an integer k, return the k most frequent elements.
@@ -7,8 +9,45 @@ import java.util.Map;
  */
 public class LC_347_TopKFrequentElements {
 
-    // slow solution : uses map to track most frequent numbers
+    // Min-Heap (priority queue) solution
     public int[] topKFrequent(int[] nums, int k) {
+
+        // frequency map < number : frequency >
+        Map<Integer, Integer> freqMap = new HashMap<>();
+
+        // builds frequency map
+        for (int num : nums) {
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        }
+
+        // defines structure and rules for the min-heap using Java's built-in Comparator and PriorityQueue
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap = new PriorityQueue<>(
+                // compares based on frequency value in freqMap's entrySets
+                Comparator.comparingInt(Map.Entry::getValue)
+        );
+
+        // iterates through frequency map
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            // adds entry to min-heap
+            minHeap.offer(entry);
+            // removes entry with the lowest frequency if heap contains more than 'k' elements
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        // builds result array, remaining elements in heap are the top k frequent elements
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = minHeap.poll().getKey();
+        }
+
+        return result;
+    }
+
+
+    // slow solution : uses map to track most frequent numbers
+    public int[] topKFrequent2(int[] nums, int k) {
 
         if (nums.length == 1) return nums;
 
