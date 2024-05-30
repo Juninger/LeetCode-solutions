@@ -1,10 +1,39 @@
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * This class holds a collection of "core skill" problems
  * to solve from NeetCode.io (https://neetcode.io/practice).
  */
 public class NeetCodeCore {
+
+    /**
+     * Implement Insertion Sort and return intermediate states.
+     * Insertion Sort is a simple sorting algorithm that builds the sorted list one element at a time, from left to right.
+     * It works by repeatedly taking an element from the unsorted portion and inserting it into its correct position in the sorted portion of the list.
+     * Objective:
+     * Given a list of key-value pairs, sort the list by key using Insertion Sort.
+     * Return a list of lists showing the state of the array after each insertion.
+     * If two key-value pairs have the same key, maintain their relative order in the sorted list.
+     * Input:
+     * pairs - a list of key-value pairs, where each key-value has an integer key and a string value. (0 <= pairs.length <= 100).
+     */
+    class InsertionSort {
+
+        // definition for a key-value pair
+        class Pair {
+            int key;
+            String value;
+
+            Pair(int key, String value) {
+                this.key = key;
+                this.value = value;
+            }
+        }
+
+        public List<List<Pair>> insertionSort(List<Pair> pairs) {
+            return null;
+        }
+    }
 
     // Design a singly linked list class
     class DesignSinglyLinkedList {
