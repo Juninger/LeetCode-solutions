@@ -31,7 +31,27 @@ public class NeetCodeCore {
         }
 
         public List<List<Pair>> insertionSort(List<Pair> pairs) {
-            return null;
+
+            int length = pairs.size();
+            List<List<Pair>> result = new ArrayList<>(); // stores states after every insertion
+            if (length == 0) return result; // edge case with empty list as input
+            result.add(new ArrayList<>(pairs)); // adds initial (unsorted) state of list to the result
+
+            // i points to where the unsorted part of the array starts
+            for (int i = 1; i < length; i++) {
+
+                Pair current = pairs.get(i); // current element to place in sorted position
+                int j = (i - 1); // pointer for the last element in the sorted portion of the list
+
+                // shift elements that are greater than the current to the right
+                while (j >= 0 && pairs.get(j).key > current.key) {
+                    pairs.set(j + 1 , pairs.get(j)); // shift element to the right
+                    j--; // decrement to compare against already sorted items
+                }
+                pairs.set(j + 1, current); // insert element at its final sorted position
+                result.add(new ArrayList<>(pairs)); // copy current state of array to result
+            }
+            return result;
         }
     }
 
