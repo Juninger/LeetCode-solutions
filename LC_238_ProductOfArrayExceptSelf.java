@@ -8,21 +8,22 @@ public class LC_238_ProductOfArrayExceptSelf {
     /**
      * Solution that uses no extra space.
      * Iterates input array length twice and uses result array to store intermediate states
-     * of prefix products (1st pass) and postfix products (2nd pass)
+     * of left products (1st pass) and right products (2nd pass)
      */
     public int[] productExceptSelf(int[] nums) {
         int[] results = new int[nums.length];
-        
-        int prefix = 1;
-        for (int i = 0; i < nums.length; i++) {
-            results[i] = prefix;
-            prefix *= nums[i];
+
+        results[0] = 1; // no element to the left of first number
+        // build array with products of all elements to the left of [i]
+        for (int i = 1; i < nums.length; i++) {
+            results[i] = nums[i - 1] * results[i - 1]; // calculates product of all elements to left of nums[i]
         }
 
-        int postfix = 1;
-        for (int i = nums.length-1; i >= 0; i--) {
-            results[i] *= postfix;
-            postfix *= nums[i];
+        int rightProd = 1; // no element to the right of last number
+        // update result array with products of all elements to left AND right of [i]
+        for (int i = nums.length - 1; i >= 0; i--) { // iterate backwards
+            results[i] = results[i] * rightProd; // multiplies current result (left product) with right product
+            rightProd *= nums[i]; // updates right prod to include element at nums[i] in next iteration
         }
         return results;
     }
