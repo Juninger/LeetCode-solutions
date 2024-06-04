@@ -5,7 +5,30 @@
  */
 public class LC_238_ProductOfArrayExceptSelf {
 
+    /**
+     * Solution that uses no extra space.
+     * Iterates input array length twice and uses result array to store intermediate states
+     * of prefix products (1st pass) and postfix products (2nd pass)
+     */
     public int[] productExceptSelf(int[] nums) {
+        int[] results = new int[nums.length];
+        
+        int prefix = 1;
+        for (int i = 0; i < nums.length; i++) {
+            results[i] = prefix;
+            prefix *= nums[i];
+        }
+
+        int postfix = 1;
+        for (int i = nums.length-1; i >= 0; i--) {
+            results[i] *= postfix;
+            postfix *= nums[i];
+        }
+        return results;
+    }
+
+    // solution that uses extra space (2x arrays) to store the product of all numbers left and right of nums[i]
+    public int[] productExceptSelf2(int[] nums) {
         int[] leftProds = new int[nums.length];
         int[] rightProds = new int[nums.length];
         int[] results = new int[nums.length];
