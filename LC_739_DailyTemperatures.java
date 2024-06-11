@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * Given an array of integers temperatures represents the daily temperatures,
  * return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature.
@@ -8,8 +10,28 @@
  */
 public class LC_739_DailyTemperatures {
 
-    // bad and slow solution that brute forces all temperature comparisons in O(N^2)
+    // optimized solution that only needs one pass over array
     public int[] dailyTemperatures(int[] temperatures) {
+
+        int[] results = new int[temperatures.length]; // stores number of days until warmer temp (from i:th day)
+        Stack<Integer> stack = new Stack<>(); // stores indices of temperatures
+
+        // iterate over each input element
+        for (int i = 0; i < temperatures.length; i++) {
+
+            // while we have temps left to compare AND the current is warmer than top of stack
+            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
+                int idx = stack.pop(); // index of the colder day
+                results[idx] = i - idx; // calculate number of days until warmer day is found
+            }
+            stack.push(i); // adds current index to the stack --> waiting for a warmer day
+        }
+        // default value of untouched elements are 0
+        return results;
+    }
+
+    // bad and slow solution that brute forces all temperature comparisons in O(N^2)
+    public int[] dailyTemperatures2(int[] temperatures) {
 
         int[] results = new int[temperatures.length];
 
