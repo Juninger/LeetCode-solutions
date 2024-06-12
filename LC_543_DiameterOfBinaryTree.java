@@ -6,8 +6,29 @@
  */
 public class LC_543_DiameterOfBinaryTree {
 
+    int max = 0; // stores the current max diameter of the tree
+
     public int diameterOfBinaryTree(TreeNode root) {
-        return 0;
+        depthOfSubtree(root); // starts recursive call
+        return max;
+    }
+
+    public int depthOfSubtree(TreeNode node) {
+        // base case, leaf or null tree
+        if (node == null) return 0;
+
+        // finds depth of each subtree
+        int left = depthOfSubtree(node.left);
+        int right = depthOfSubtree(node.right);
+
+        // diameter of subtrees from current node
+        int diameter = left + right;
+
+        // update global max diameter if current is larger
+        max = Math.max(diameter, max);
+
+        // return the max height from the current root (+1 to account for current node)
+        return 1 + Math.max(left, right);
     }
 
     // Definition for a binary tree node.
