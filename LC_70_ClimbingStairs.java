@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * You are climbing a staircase. It takes n steps to reach the top.
  * Each time you can either climb 1 or 2 steps.
@@ -59,9 +61,10 @@ public class LC_70_ClimbingStairs {
 
         // initialize all values in memoization array to -1 to indicate non-computed values
         memo = new int[n + 1]; // +1 because we start from "step 0"
-        for (int i = 0; i <= n; i++) {
-            memo[i] = -1;
-        }
+//        for (int i = 0; i <= n; i++) {
+//            memo[i] = -1;
+//        }
+        Arrays.fill(memo, -1);
 
         // start recursive method
         return stairClimber(n);
