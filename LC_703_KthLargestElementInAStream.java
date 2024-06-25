@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.PriorityQueue;
 
 /**
@@ -19,17 +18,43 @@ public class LC_703_KthLargestElementInAStream {
 
         this.k = k; // store value of k in class variable
 
-        // add all numbers to the heap
-        for (int num : nums) minHeap.add(num);
-
-        // remove elements to only keep the k largest
-        while (minHeap.size() > k) minHeap.poll();
+        // add all numbers (up to k) to the heap with custom add-method
+        for (int num : nums) add(num);
     }
 
     // add new elements and return the kth largest
     public int add(int val) {
-        minHeap.add(val); // add new value to heap
-        if (minHeap.size() > k) minHeap.poll(); // more than k elements in heap --> remove the smallest one
+
+        if (minHeap.size() < k) minHeap.add(val); // less than k elements, add new val directly
+        else if (val > minHeap.peek()) { // new val larger than smallest in heap
+            minHeap.poll(); // remove smallest element
+            minHeap.add(val); // add new value to heap
+        }
+
         return minHeap.peek(); // kth smallest element is stored in root of heap
+    }
+
+    /* -------------------------------------------------------------------------------------------- */
+
+    // min-heap that stores the k largest elements
+    PriorityQueue<Integer> minHeap2 = new PriorityQueue<>();
+    int k2;
+
+    public LC_703_KthLargestElementInAStream2(int k, int[] nums) {
+
+        this.k2 = k; // store value of k in class variable
+
+        // add all numbers to the heap
+        for (int num : nums) minHeap2.add(num);
+
+        // remove elements to only keep the k largest
+        while (minHeap2.size() > k) minHeap2.poll();
+    }
+
+    // add new elements and return the kth largest
+    public int add2(int val) {
+        minHeap2.add(val); // add new value to heap
+        if (minHeap2.size() > k2) minHeap2.poll(); // more than k elements in heap --> remove the smallest one
+        return minHeap2.peek(); // kth smallest element is stored in root of heap
     }
 }
