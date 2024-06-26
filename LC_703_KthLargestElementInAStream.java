@@ -40,6 +40,7 @@ public class LC_703_KthLargestElementInAStream {
     PriorityQueue<Integer> minHeap2 = new PriorityQueue<>();
     int k2;
 
+    /*
     public LC_703_KthLargestElementInAStream2(int k, int[] nums) {
 
         this.k2 = k; // store value of k in class variable
@@ -50,6 +51,7 @@ public class LC_703_KthLargestElementInAStream {
         // remove elements to only keep the k largest
         while (minHeap2.size() > k) minHeap2.poll();
     }
+    */
 
     // add new elements and return the kth largest
     public int add2(int val) {
