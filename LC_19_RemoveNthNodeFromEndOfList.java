@@ -30,7 +30,7 @@ public class LC_19_RemoveNthNodeFromEndOfList {
         return dummyHead.next; // original head of the list
     }
 
-     // dfinition for singly-linked list
+     // definition for singly-linked list
      public class ListNode {
           int val;
           ListNode next;
