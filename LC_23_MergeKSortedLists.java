@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
  * You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
@@ -18,10 +18,39 @@ import java.util.Arrays;
  */
 public class LC_23_MergeKSortedLists {
 
+    // solution using a min-heap
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null; // empty list edge case
+
+        // min-heap with custom comparator to store ListNodes in order
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);
+
+        // add head of each list to minHeap
+        for (ListNode head : lists) {
+            if (head != null) minHeap.add(head);
+        }
+
+        ListNode dummyHead = new ListNode(-1); // helper variable to store head of return list
+        ListNode curr = dummyHead; // pointer to the current while building return list
+
+        // keep merging until heap is empty
+        while (!minHeap.isEmpty()) {
+            ListNode smallest = minHeap.poll(); // fetch the smallest item from heap
+            curr.next = smallest; // add the smallest node to return list
+            curr = curr.next; // move pointer to next node in return list
+
+            // if the extracted node was not the last one, add the rest of the list back to the heap
+            if (smallest.next != null) minHeap.add(smallest.next);
+        }
+        return dummyHead.next; // new merged list
+    }
+
+    /* -------------------------------------------------------------------------------------------- */
+
     /*
         solution idea: repeatedly merge PAIRS of lists to reach O(n*log(k))
     */
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists2(ListNode[] lists) {
         if (lists == null || lists.length == 0) return null; // empty list edge case
         int merges = lists.length; // tracks the number of total merges needed
 
