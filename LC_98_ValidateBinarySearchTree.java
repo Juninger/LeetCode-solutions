@@ -10,8 +10,26 @@ import java.util.Stack;
  * - Both the left and right subtrees must also be binary search trees.
  */
 public class LC_98_ValidateBinarySearchTree {
-    // DFS solution with in-order traversal
+
+    // driver-method for recursive solution
     public boolean isValidBST(TreeNode root) {
+        // initialize recursion with the entire range of possible values
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValidBST(TreeNode node, long min, long max) {
+        if (node == null) return true; // empty tree should be a valid BST
+
+        // check if BST is still valid by comparing current node to current min and max values
+        if (node.val <= min || node.val >= max) return false;
+
+        // validate left and right subtrees recursively with new min-max values
+        return isValidBST(node.left, min, node.val) &&
+                isValidBST(node.right, node.val, max);
+    }
+
+    // DFS solution with in-order traversal
+    public boolean isValidBST2(TreeNode root) {
         if (root == null) return true; // empty tree should be a valid BST
 
         Stack<TreeNode> stack = new Stack<>();
