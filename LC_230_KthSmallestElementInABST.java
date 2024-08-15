@@ -14,8 +14,33 @@ import java.util.Stack;
  */
 public class LC_230_KthSmallestElementInABST {
 
-    // uses in-order traversal to process nodes in ascending order
+    private int index = 0; // counter for nodes visited until k
+    private int res = 0; // stores the kth smallest value once found
+
+    // driver method for the recursive solution
     public int kthSmallest(TreeNode root, int k) {
+        traverseBST(root, k);
+        return res; // holds result after recursion
+    }
+
+    // in-order BST traversal
+    public void traverseBST(TreeNode node, int k) {
+        if (node == null) return; // base case
+
+        // traverse left subtree
+        traverseBST(node.left, k);
+
+        index++; // increment number of nodes visited
+        if (index == k) { // Kth node reached, solution found
+            res = node.val; // store result
+            return;
+        }
+        // traverse right subtree
+        traverseBST(node.right, k);
+    }
+
+    // uses in-order traversal to process nodes in ascending order
+    public int kthSmallest2(TreeNode root, int k) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode curr = root; // current node being processed
         int index = 0; // counter for nodes visited until k
