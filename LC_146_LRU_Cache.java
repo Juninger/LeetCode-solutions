@@ -1,3 +1,6 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
  * Implement the LRUCache class:
@@ -13,16 +16,26 @@
  */
 public class LC_146_LRU_Cache {
 
-    public LC_146_LRU_Cache(int capacity) {
+    // solution that leverages Java's standard library for LinkedHashmap
+    private LinkedHashMap<Integer, Integer> cache;
 
+    public LC_146_LRU_Cache(int capacity) {
+        // initializes the LinkedHashmap with given capacity, standard load-factor, and automatic ordering of items based on access (instead of insertion)
+        this.cache = new LinkedHashMap<>(capacity, 0.75f, true) {
+            // overrides standard functionality to automatically remove the oldest entry
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                return size() > capacity; // size of current map vs given capacity limit
+            }
+        };
     }
 
     public int get(int key) {
-
+        return cache.getOrDefault(key, -1); // returns value if key exists, otherwise -1
     }
 
     public void put(int key, int value) {
-
+        cache.put(key, value); // LinkedHashMap automatically manages the removal of older entries when capacity is exceeded
     }
 
     /**
