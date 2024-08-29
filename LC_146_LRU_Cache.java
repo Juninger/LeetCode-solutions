@@ -36,7 +36,6 @@ public class LC_146_LRU_Cache {
 
     int capacity; // given maximum capacity of the cache
     Map<Integer, Node> cache; // structure for our LRU cache: <'key', 'pointer to the node with given key'>
-    LinkedList<Node> dll; // doubly linked list
     Node left; // LEAST recently used dummy
     Node right; // MOST recently used dummy
 
